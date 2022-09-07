@@ -11,6 +11,7 @@
     "esbuild-register": "^3.3.3"
   },
   "scripts": {
-    "cc": "node -r esbuild-register getContractCreationTimestamp.ts"
+    "cc": "node -r esbuild-register getContractCreationTimestamp.ts",
+    "bn": "node -r esbuild-register getBlock.ts"
   }
 }
