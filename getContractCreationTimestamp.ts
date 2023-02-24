@@ -1,10 +1,14 @@
-import { ethers } from "ethers";
+import { providers } from "ethers";
 import fetch from "node-fetch";
+import { getEnv } from "./getEnv";
 
 require("dotenv").config();
 
 async function main() {
-  const provider = new ethers.providers.JsonRpcProvider(process.env.JSON_RPC);
+  const provider = new providers.AlchemyProvider(
+    "homestead",
+    getEnv("ALCHEMY_API_KEY")
+  );
 
   const address = process.argv[2];
 
@@ -12,7 +16,7 @@ async function main() {
     "https://api.etherscan.io/api?module=contract&action=getcontractcreation&contractaddresses=" +
       address +
       "&apikey=" +
-      process.env.ETHERSCAN_KEY
+      getEnv("ETHERSCAN_API_KEY")
   );
   const data = await response.json();
 
@@ -22,9 +26,11 @@ async function main() {
 
   const blockNumber = tx.blockNumber;
 
+  console.log("blockNumber", blockNumber);
+
   const block = await provider.getBlock(blockNumber);
 
-  console.log(block.timestamp);
+  console.log("timestamp", block.timestamp);
 }
 
 main();
